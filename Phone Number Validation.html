@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Number Validation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .input-group {
+            margin-bottom: 25px;
+        }
+        .input-group label {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .input-group input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 8px rgba(72, 230, 126, 0.6);
+        }
+        .button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        .button:active {
+            transform: translateY(2px);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .valid {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .invalid {
+            color: #D32F2F;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .invalid span {
+            display: block;
+            margin-top: 10px;
+            font-weight: normal;
+        }
+        /* Animation for container */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Phone Number Validator</h2>
+        <div class="description">
+            <p>The phone number should follow the format <strong>XXX-XXX-XXXX</strong>, where <strong>X</strong> represents a digit.</p>
+        </div>
+        <div class="input-group">
+            <label for="phoneNumber">Enter Phone Number (XXX-XXX-XXXX):</label>
+            <input type="text" id="phoneNumber" placeholder="XXX-XXX-XXXX">
+        </div>
+        <button class="button" onclick="validatePhoneNumber()">Validate</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function validatePhoneNumber() {
+            let phoneNumber = document.getElementById("phoneNumber").value;
+            let resultDiv = document.getElementById("result");
+            let flag = true;
+
+            // Check if length is 12
+            if (phoneNumber.length !== 12) {
+                flag = false;
+            } else {
+                // Check for correct hyphen placement and valid digits
+                for (let i = 0; i < phoneNumber.length; i++) {
+                    if (i === 3 || i === 7) {
+                        if (phoneNumber[i] !== '-') {
+                            flag = false;
+                            break;
+                        }
+                    } else {
+                        if (phoneNumber[i] < '0' || phoneNumber[i] > '9') {
+                            flag = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (flag) {
+                resultDiv.innerHTML = `<span class="valid">Yes, the phone number is valid</span><br>`;
+                let formattedNumber = phoneNumber.replace(/-/g, "");
+                resultDiv.innerHTML += `Formatted Number: ${formattedNumber}`;
+            } else {
+                resultDiv.innerHTML = `<span class="invalid">No, the phone number is not valid.</span><br>`;
+                resultDiv.innerHTML += `<span class="invalid">The hyphens must be placed exactly at positions 4 and 8, and there must be no other characters or spaces.</span>`;
+            }
+        }
+    </script>
+
+</body>
+</html>
